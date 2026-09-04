@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 from demo_service.models import MaintenanceTicket, Priority
 
@@ -19,3 +19,12 @@ def list_maintenance_tickets(
     if priority is None:
         return TICKETS
     return [ticket for ticket in TICKETS if ticket.priority == priority]
+
+
+@app.get("/maintenance-tickets/{ticket_id}", response_model=MaintenanceTicket)
+def get_maintenance_ticket(ticket_id: int) -> MaintenanceTicket:
+    """Return a maintenance ticket by ID."""
+    for ticket in TICKETS:
+        if ticket.id == ticket_id:
+            return ticket
+    raise HTTPException(status_code=404, detail="Maintenance ticket not found")

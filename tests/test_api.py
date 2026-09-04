@@ -46,3 +46,20 @@ def test_rejects_unsupported_priority() -> None:
     response = client.get("/maintenance-tickets", params={"priority": "urgent"})
 
     assert response.status_code == 422
+
+
+def test_gets_ticket_by_id() -> None:
+    response = client.get("/maintenance-tickets/1")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "id": 1,
+        "title": "Inspect lift",
+        "priority": "high",
+    }
+
+
+def test_returns_not_found_for_missing_ticket() -> None:
+    response = client.get("/maintenance-tickets/999")
+
+    assert response.status_code == 404

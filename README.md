@@ -23,3 +23,35 @@ GET /maintenance-tickets?priority=low
 ```
 
 Supported priority values are `low`, `medium`, and `high`.
+
+## Get a maintenance ticket by ID
+
+To return the ticket with ID 1:
+
+```http
+GET /maintenance-tickets/1
+```
+
+Successful response:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{"id":1,"title":"Inspect lift","priority":"high"}
+```
+
+If the ticket does not exist:
+
+```http
+GET /maintenance-tickets/999
+```
+
+Missing-ticket response:
+
+```http
+HTTP/1.1 404 Not Found
+Content-Type: application/json
+
+{"detail":"Maintenance ticket not found"}
+```
