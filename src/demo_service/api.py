@@ -12,6 +12,10 @@ TICKETS = [
 
 
 @app.get("/maintenance-tickets", response_model=list[MaintenanceTicket])
-def list_maintenance_tickets() -> list[MaintenanceTicket]:
-    """List all maintenance tickets."""
-    return TICKETS
+def list_maintenance_tickets(
+    priority: Priority | None = None,
+) -> list[MaintenanceTicket]:
+    """List maintenance tickets, optionally filtered by priority."""
+    if priority is None:
+        return TICKETS
+    return [ticket for ticket in TICKETS if ticket.priority == priority]
